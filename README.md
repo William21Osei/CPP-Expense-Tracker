@@ -1,123 +1,57 @@
 
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include <string>
-#include <iomanip>
-#include <limits>
+# C++ Expense Tracker
 
-using namespace std;
+A command-line application for recording and reviewing personal expenses.
 
-struct Expense {
-    string category;
-    double amount;
-};
+## Features
 
-vector<Expense> expenses;
+- Add expenses with a category and amount
+- View saved expense records
+- Calculate total expenses
+- Save records in a local text file
+- Load saved records when the application restarts
+- Validate expense amounts and menu input
 
-void loadExpenses() {
-    ifstream file("expenses.txt");
-    Expense expense;
+## Technologies
 
-    while (file >> expense.amount) {
-        file.ignore(numeric_limits<streamsize>::max(), '\n');
-        if (getline(file, expense.category)) {
-            expenses.push_back(expense);
-        }
-    }
-}
+- C++
+- Standard Template Library (STL)
+- Vectors and structures
+- File input/output
+- Functions and loops
 
-void saveExpenses() {
-    ofstream file("expenses.txt");
+## How to Compile
 
-    for (const Expense& expense : expenses) {
-        file << expense.amount << '\n';
-        file << expense.category << '\n';
-    }
-}
+Using the g++ compiler:
 
-void addExpense() {
-    Expense expense;
+```bash
+g++ expense_tracker.cpp -o expense_tracker
+```
 
-    cout << "Enter expense category: ";
-    getline(cin >> ws, expense.category);
+## How to Run
 
-    cout << "Enter amount: ";
+On Windows:
 
-    if (!(cin >> expense.amount) || expense.amount <= 0) {
-        cout << "Invalid amount. Please enter a positive number.\n";
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        return;
-    }
+```bash
+expense_tracker.exe
+```
 
-    expenses.push_back(expense);
-    saveExpenses();
+On Linux:
 
-    cout << "Expense saved successfully!\n";
-}
+```bash
+./expense_tracker
+```
 
-void showExpenses() {
-    if (expenses.empty()) {
-        cout << "No expenses recorded yet.\n";
-        return;
-    }
+## Data Storage
 
-    double total = 0;
+The application stores records in `expenses.txt` in the current working directory.
 
-    cout << "\n--- EXPENSE HISTORY ---\n";
+## Learning Objectives
 
-    for (size_t i = 0; i < expenses.size(); ++i) {
-        cout << i + 1 << ". "
-             << expenses[i].category << " - "
-             << fixed << setprecision(2)
-             << expenses[i].amount << '\n';
+This project demonstrates basic C++ programming, data structures, input validation, and file handling.
 
-        total += expenses[i].amount;
-    }
+## Author
 
-    cout << "Total expenses: "
-         << fixed << setprecision(2)
-         << total << "\n";
-}
+William Osei Sarpong
 
-int main() {
-    loadExpenses();
-
-    int choice;
-
-    do {
-        cout << "\n============================\n";
-        cout << "     C++ EXPENSE TRACKER\n";
-        cout << "============================\n";
-        cout << "1. Add expense\n";
-        cout << "2. View expenses\n";
-        cout << "3. Exit\n";
-        cout << "Choose an option: ";
-
-        if (!(cin >> choice)) {
-            cout << "Please enter a number.\n";
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            continue;
-        }
-
-        switch (choice) {
-            case 1:
-                addExpense();
-                break;
-            case 2:
-                showExpenses();
-                break;
-            case 3:
-                saveExpenses();
-                cout << "Expenses saved. Goodbye!\n";
-                break;
-            default:
-                cout << "Invalid choice. Try again.\n";
-        }
-
-    } while (choice != 3);
-
-    return 0;
-}
+Computer Science Student | Software Development | IT Systems & PC Hardware
